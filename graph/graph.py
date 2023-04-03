@@ -131,12 +131,12 @@ class Graph:
             weight (int): The weight of the edge.
 
         Raises:
-            IndexError: If the start or end node index is invalid.
+            KeyError: If the start or end node index is invalid.
         """
         start_node = self._nodes.get(start_node_idx)
         end_node = self._nodes.get(end_node_idx)
         if start_node is None or end_node is None:
-            raise IndexError("Invalid node index.")
+            raise KeyError("Invalid node index.")
 
         self._edges.add(
             Edge(start_node, end_node, self._directed, self._weighted, weight)
@@ -153,11 +153,11 @@ class Graph:
             node_idx (int): The index of the node to remove.
 
         Raises:
-            IndexError: If the node index is invalid.
+            KeyError: If the node index is invalid.
         """
         node = self._nodes[node_idx]
         if node is None:
-            raise IndexError("Invalid node index.")
+            raise KeyError("Invalid node index.")
 
         for edge in self._edges:
             if edge.get_start_node == node or edge.get_end_node == node:
@@ -172,12 +172,12 @@ class Graph:
             end_node_idx (int): The index of the end node.
 
         Raises:
-            IndexError: If the start or end node index is invalid.
+            KeyError: If the start or end node index is invalid.
         """
         start_node = self._nodes.get(start_node_idx)
         end_node = self._nodes.get(end_node_idx)
         if start_node is None or end_node is None:
-            raise IndexError("Invalid node index.")
+            raise KeyError("Invalid node index.")
 
         for edge in self._edges:
             if edge.get_start_node == start_node and edge.get_end_node == end_node:
@@ -200,11 +200,11 @@ class Graph:
             iter: An iterator of the neighbors of the node.
 
         Raises:
-            IndexError: If the node index is invalid.
+            KeyError: If the node index is invalid.
         """
         node = self._nodes.get(node_idx)
         if node is None:
-            raise IndexError("Invalid node index.")
+            raise KeyError("Invalid node index.")
 
         neighbors = set()
         for edge in self._edges:
@@ -223,12 +223,12 @@ class Graph:
             int: The weight of the edge.
 
         Raises:
-            IndexError: If the start or end node index is invalid.
+            KeyError: If the start or end node index is invalid.
         """
         start_node = self._nodes.get(start_node_idx)
         end_node = self._nodes.get(end_node_idx)
         if start_node is None or end_node is None:
-            raise ValueError("Invalid node index.")
+            raise KeyError("Invalid node index.")
 
         for edge in self._edges:
             if edge.get_start_node == start_node and edge.get_end_node == end_node:
@@ -258,11 +258,11 @@ class Graph:
             iter: An iterator of the nodes in the order they were visited.
 
         Raises:
-            IndexError: If the start node index is invalid.
+            KeyError: If the start node index is invalid.
         """
         start_node = self._nodes.get(start_node_idx)
         if start_node is None:
-            raise ValueError("Invalid node index.")
+            raise KeyError("Invalid node index.")
 
         visited, queue = set(), [start_node]
         while queue:
@@ -282,11 +282,11 @@ class Graph:
             iter: An iterator of the nodes in the order they were visited.
 
         Raises:
-            IndexError: If the start node index is invalid.
+            KeyError: If the start node index is invalid.
         """
         start_node = self._nodes.get(start_node_idx)
         if start_node is None:
-            raise IndexError("Invalid node index.")
+            raise KeyError("Invalid node index.")
 
         visited, stack = set(), [start_node]
         while stack:
@@ -310,7 +310,7 @@ class Graph:
 
         Raises:
             ValueError: If the graph is not weighted.
-            IndexError: If the start or end node index is invalid.
+            KeyError: If the start or end node index is invalid.
         """
         if not self._weighted:
             raise ValueError("Graph must be weighted.")
@@ -318,7 +318,7 @@ class Graph:
         start_node = self._nodes.get(start_node_idx)
         end_node = self._nodes.get(end_node_idx)
         if start_node is None or end_node is None:
-            raise IndexError("Invalid node index.")
+            raise KeyError("Invalid node index.")
 
         weights = {node: float("inf") for node in self._nodes.values()}
         weights[start_node] = 0
