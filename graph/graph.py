@@ -28,6 +28,13 @@ class Graph:
         read_from_file: Reads a graph from a file.
         topological_sort: Returns a topological sort of the graph.
         is_acyclic: Returns whether the graph is acyclic.
+        dijkstra: Returns the shortest path from a node to all other nodes.
+        bfs: Returns a breadth-first search of the graph.
+        dfs: Returns a depth-first search of the graph.
+        get_edge_weight: Returns the weight of an edge.
+        get_first_index: Returns the first index of the graph.
+        get_node: Returns a node in the graph.
+        get_edge: Returns an edge in the graph.
     """
 
     def __init__(
