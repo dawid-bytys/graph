@@ -328,13 +328,13 @@ class Graph:
         while priority_queue:
             _, node = heapq.heappop(priority_queue)
             for neighbor in self.get_neighbors(node.get_index):
-                new_distance = weights[node] + self.get_edge_weight(
+                new_weight = weights[node] + self.get_edge_weight(
                     node.get_index, neighbor.get_index
                 )
-                if new_distance < weights[neighbor]:
-                    weights[neighbor] = new_distance
+                if new_weight < weights[neighbor]:
+                    weights[neighbor] = new_weight
                     previous[neighbor] = node
-                    heapq.heappush(priority_queue, (new_distance, neighbor))
+                    heapq.heappush(priority_queue, (new_weight, neighbor))
 
         path = []
         node = end_node
