@@ -384,19 +384,28 @@ class Graph:
 
         Args:
             file_name (str): The name of the file to read from.
+
+        Raises:
+            FileNotFoundError: If the file does not exist.
+            ValueError: If the file is in an invalid format.
         """
         with open(file_name, "r") as file:
-            for index, line in enumerate(file):
-                if index == 0:
-                    for _ in range(int(line)):
-                        self.add_node()
-                else:
-                    if self._weighted:
-                        start_node_idx, end_node_idx, weight = map(int, line.split(" "))
-                        self.add_edge(start_node_idx, end_node_idx, weight)
+            try:
+                for index, line in enumerate(file):
+                    if index == 0:
+                        for _ in range(int(line)):
+                            self.add_node()
                     else:
-                        start_node_idx, end_node_idx = map(int, line.split(" "))
-                        self.add_edge(start_node_idx, end_node_idx)
+                        if self._weighted:
+                            start_node_idx, end_node_idx, weight = map(
+                                int, line.split(" ")
+                            )
+                            self.add_edge(start_node_idx, end_node_idx, weight)
+                        else:
+                            start_node_idx, end_node_idx = map(int, line.split(" "))
+                            self.add_edge(start_node_idx, end_node_idx)
+            except ValueError:
+                raise ValueError("Invalid file format.")
 
     def __str__(self) -> str:
         """Returns a string representation of the graph.
