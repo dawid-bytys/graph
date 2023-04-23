@@ -2,6 +2,7 @@ import heapq
 from collections import defaultdict
 from typing import Any, Literal
 
+from disjoint_set import DisjointSet
 from typing_extensions import Self
 
 from .edge import Edge
@@ -418,6 +419,38 @@ class Graph:
                         distances[start_node][end_node] = new_distance
 
         return distances
+
+    def kruskal(self: Self, minimum: bool = True) -> iter:
+        """Performs Kruskal's algorithm on the graph.
+
+        Args:
+            minimum (bool, optional): Whether to find the minimum or maximum spanning tree. Defaults to True.
+
+        Returns:
+            iter: An iterator of the edges in the minimum or maximum spanning tree.
+
+        Raises:
+            ValueError: If the graph is not weighted.
+        """
+        if not self._weighted:
+            raise ValueError("Graph must be weighted.")
+
+        sorted_edges = sorted(
+            self._edges, key=lambda edge: edge.get_weight, reverse=not minimum
+        )
+        disjoint_set = DisjointSet()
+        for node in self._nodes.values():
+            disjoint_set.make_set(node)
+
+        spanning_tree = []
+        for edge in sorted_edges:
+            start_node = edge.get_start_node
+            end_node = edge.get_end_node
+            if disjoint_set.find_set(start_node) != disjoint_set.find_set(end_node):
+                spanning_tree.append(edge)
+                disjoint_set.union(start_node, end_node)
+
+        return iter(spanning_tree)
 
     def read_from_file(self: Self, file_name: str) -> None:
         """Reads a graph from a file.

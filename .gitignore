@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 graph.txt
+main.py
 
 # C extensions
 *.so
