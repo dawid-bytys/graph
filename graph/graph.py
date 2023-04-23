@@ -262,7 +262,7 @@ class Graph:
             start_node_idx (int): The index of the start node.
 
         Returns:
-            iter: An iterator of the nodes in the order they were visited.
+            iter: An iterator of the visited nodes.
 
         Raises:
             KeyError: If the start node index is invalid.
@@ -286,7 +286,7 @@ class Graph:
             start_node_idx (int): The index of the start node.
 
         Returns:
-            iter: An iterator of the nodes in the order they were visited.
+            iter: An iterator of the visited nodes.
 
         Raises:
             KeyError: If the start node index is invalid.
@@ -385,6 +385,39 @@ class Graph:
                     queue.append(neighbor)
 
         return iter(sorted_nodes)
+
+    def floyd_warshall(self: Self) -> dict[Node, dict[Node, int]]:
+        """Performs Floyd-Warshall's algorithm on the graph.
+
+        Returns:
+            dict[Node, dict[Node, int]]: A dictionary containing the shortest paths between all pairs of nodes.
+
+        Raises:
+            ValueError: If the graph is not weighted.
+        """
+        if not self._weighted:
+            raise ValueError("Graph must be weighted.")
+
+        distances = {
+            node: {node: float("inf") for node in self._nodes.values()}
+            for node in self._nodes.values()
+        }
+        for node in self._nodes.values():
+            distances[node][node] = 0
+
+        for edge in self._edges:
+            distances[edge.get_start_node][edge.get_end_node] = edge.get_weight
+
+        for node in self._nodes.values():
+            for start_node in self._nodes.values():
+                for end_node in self._nodes.values():
+                    new_distance = (
+                        distances[start_node][node] + distances[node][end_node]
+                    )
+                    if new_distance < distances[start_node][end_node]:
+                        distances[start_node][end_node] = new_distance
+
+        return distances
 
     def read_from_file(self: Self, file_name: str) -> None:
         """Reads a graph from a file.
